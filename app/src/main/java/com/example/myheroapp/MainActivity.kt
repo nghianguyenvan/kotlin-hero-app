@@ -10,11 +10,15 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myheroapp.model.Hero
@@ -26,10 +30,18 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SuperheroesTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                Scaffold(modifier = Modifier.fillMaxSize(),
+                    topBar = {
+                        Text(
+                            stringResource(R.string.app_name),
+                            style = MaterialTheme.typography.displayLarge,
+                            modifier = Modifier.fillMaxWidth().padding(16.dp)
+                        )
+                    }
+                    ) { innerPadding ->
                     print(innerPadding.calculateTopPadding())
                     HeroesScreen(
-                        modifier = Modifier.padding(innerPadding),
+                        modifier = Modifier.padding(innerPadding).padding(16.dp),
                         heroes = HeroesRepository.heroes
                     )
                 }
@@ -46,14 +58,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
     )
 }
 
-@Composable
-fun HeroesScreen(modifier: Modifier = Modifier, heroes: List<Hero>){
-    LazyColumn(modifier = modifier, contentPadding = PaddingValues(bottom = 8.dp) ) {
-        items(count = heroes.size) {
-            HeroItem(hero = heroes[it], modifier = Modifier.fillMaxWidth())
-        }
-    }
-}
+
 
 @Preview(showBackground = true)
 @Composable
